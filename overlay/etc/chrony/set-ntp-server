@@ -1,0 +1,5 @@
+#!/bin/sh
+
+ntp_server=$1
+
+logger -t chrony-set-ntp-server "ntp server: '${ntp_server}'"

@@ -1,0 +1,38 @@
+#!/bin/sh
+
+rm /bin/hostname
+ln -s /bin/busybox /bin/hostname
+
+
+echo "--- First boot config ---"
+
+# Hostname
+busybox hostname brick
+
+# Networking
+rc-update add networking boot
+
+# Ntp
+apk add chrony
+rc-update add chrony default
+
+# Ssh
+apk add openssh-server
+echo "UseDNS no" >> /etc/ssh/sshd_config
+echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
+echo "PermitEmptyPasswords yes" >> /etc/ssh/sshd_config
+rc-update add sshd default
+/etc/init.d/sshd checkconfig
+
+# Install additional packages
+setup-apkcache /media/mmcblk0p1/cache
+apk add /packages/*.apk
+
+# # Lbu
+# setup-lbu -q
+# lbu commit -d
+
+# reboot
+
+# TO BE REMOVED
+/etc/init.d/networking start

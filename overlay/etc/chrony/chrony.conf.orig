@@ -1,0 +1,4 @@
+driftfile /var/lib/chrony/chrony.drift
+rtcsync
+pool pool.ntp.org iburst
+initstepslew 10 pool.ntp.org

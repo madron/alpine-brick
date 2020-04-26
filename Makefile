@@ -13,7 +13,7 @@ PACKAGES=${PACKAGES_IPTABLES} ${PACKAGES_PYTHON} ${PACKAGES_PYTHON_LIBS} ${PACKA
 .ONESHELL:
 
 
-all: output overlay
+all: output overlay usercfg
 
 
 fetch-alpine:
@@ -22,12 +22,6 @@ fetch-alpine:
 	test -f alpine.tgz || wget -O alpine.tgz ${ALPINE_URL}
 	cd original
 	test -f config.txt || tar xfz ../alpine.tgz
-
-
-output: fetch-alpine
-	mkdir -p build/output
-	cd build
-	cp -a original/* output/
 
 
 fetch-packages:
@@ -39,11 +33,22 @@ fetch-packages:
 	done
 
 
+output: fetch-alpine
+	mkdir -p build/output
+	cd build
+	cp -a original/* output/
+
+
 overlay: fetch-alpine fetch-packages
 	mkdir -p build/output
 	tar --create --file=build/output/localhost.apkovl.tar -C overlay .
 	tar --append --file=build/output/localhost.apkovl.tar -C build packages
 	gzip -f build/output/localhost.apkovl.tar
+
+
+usercfg:
+	mkdir -p build/output
+	cp usercfg.txt build/output/
 
 
 clean:

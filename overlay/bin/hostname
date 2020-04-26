@@ -26,22 +26,24 @@ rc-update add sshd default
 setup-apkcache /media/mmcblk0p1/cache
 apk add /packages/*.apk
 
+# Setup Lbu
+setup-lbu -q
+
 # Install brick
 mount /media/mmcblk0p1 -o rw,remount
 pip3 install --root /media/mmcblk0p1/opt --no-index --find-links=file:/requirements brick
 mount /media/mmcblk0p1 -o ro,remount
 rc-update add brick boot
+lbu include /etc/init.d/brick
+lbu include /usr/lib/python3.8/site-packages/local.pth
 
-# Lbu
-setup-lbu -q
-# lbu commit -d
-
-# reboot
 
 # TO BE REMOVED
 echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
 echo "PermitEmptyPasswords yes" >> /etc/ssh/sshd_config
-/etc/init.d/networking start
-/etc/init.d/chronyd start
-sleep 5s
-setup-apkrepos -1
+
+
+# Lbu commit
+lbu commit -d
+
+reboot

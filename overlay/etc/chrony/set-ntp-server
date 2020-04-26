@@ -3,6 +3,8 @@
 ntp_server=$1
 
 logger -t chrony-set-ntp-server "ntp server: '${ntp_server}'"
+logger -t chrony-set-ntp-server "DISABLED"
+exit 0
 
 if [ -z "$ntp_server" ]
 then

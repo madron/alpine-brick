@@ -26,8 +26,14 @@ rc-update add sshd default
 setup-apkcache /media/mmcblk0p1/cache
 apk add /packages/*.apk
 
-# Lbu
+# Setup lbu
 setup-lbu -q
+
+# Install requirements
+pip3 install --root /opt --no-index --find-links=file:/requirements brick
+lbu add /opt
+
+# Lbu commit
 # lbu commit -d
 
 # reboot
@@ -37,4 +43,5 @@ echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
 echo "PermitEmptyPasswords yes" >> /etc/ssh/sshd_config
 /etc/init.d/networking start
 /etc/init.d/chronyd start
+sleep 5s
 setup-apkrepos -1

@@ -10,6 +10,9 @@ PACKAGES_PYTHON_LIBS=yaml-0.2.2-r1.apk py3-yaml-5.3.1-r0.apk
 PACKAGES_RSYNC=libacl-2.2.53-r0.apk popt-1.16-r7.apk rsync-3.1.3-r2.apk rsync-openrc-3.1.3-r2.apk
 PACKAGES=${PACKAGES_IPTABLES} ${PACKAGES_PYTHON} ${PACKAGES_PYTHON_LIBS} ${PACKAGES_RSYNC}
 
+BRICK_VERSION=fc173408ddc1fcd19244997f689b05988c508545
+BRICK_URL=https://github.com/madron/brick-iot
+
 .ONESHELL:
 
 
@@ -33,16 +36,24 @@ fetch-packages:
 	done
 
 
+build/requirements:
+	mkdir -p build/requirements
+	cd build/requirements
+	pip3 download --platform aarch64 --no-deps websockets
+	pip3 download  git+${BRICK_URL}.git@${BRICK_VERSION}#egg=brick
+
+
 output: fetch-alpine
 	mkdir -p build/output
 	cd build
 	cp -a original/* output/
 
 
-overlay: fetch-alpine fetch-packages
+overlay: fetch-alpine fetch-packages build/requirements
 	mkdir -p build/output
 	tar --create --file=build/output/localhost.apkovl.tar -C overlay .
 	tar --append --file=build/output/localhost.apkovl.tar -C build packages
+	tar --append --file=build/output/localhost.apkovl.tar -C build requirements
 	gzip -f build/output/localhost.apkovl.tar
 
 
@@ -50,6 +61,9 @@ usercfg:
 	mkdir -p build/output
 	cp usercfg.txt build/output/
 
+
+clean-requirements:
+	rm -rf build/requirements
 
 clean:
 	rm -rf build

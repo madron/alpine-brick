@@ -14,7 +14,7 @@ rc-update add networking boot
 
 # Ntp
 apk add chrony
-rc-update add chrony default
+rc-update add chronyd default
 
 # Ssh
 apk add openssh-server
@@ -36,5 +36,5 @@ setup-lbu -q
 echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
 echo "PermitEmptyPasswords yes" >> /etc/ssh/sshd_config
 /etc/init.d/networking start
-/etc/init.d/chrony start
+/etc/init.d/chronyd start
 setup-apkrepos -1

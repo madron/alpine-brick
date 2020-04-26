@@ -26,10 +26,11 @@ rc-update add sshd default
 setup-apkcache /media/mmcblk0p1/cache
 apk add /packages/*.apk
 
-# Install requirements
+# Install brick
 mount /media/mmcblk0p1 -o rw,remount
 pip3 install --root /media/mmcblk0p1/opt --no-index --find-links=file:/requirements brick
 mount /media/mmcblk0p1 -o ro,remount
+rc-update add brick boot
 
 # Lbu
 setup-lbu -q

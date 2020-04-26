@@ -1,2 +1,0 @@
-driftfile /var/lib/chrony/chrony.drift
-rtcsync

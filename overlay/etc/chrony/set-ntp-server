@@ -7,9 +7,17 @@ logger -t chrony-set-ntp-server "ntp server: '${ntp_server}'"
 if [ -z "$ntp_server" ]
 then
     logger -t chrony-set-ntp-server "standard config"
-    cp /etc/chrony/chrony.conf.orig /etc/chrony/chrony.conf
+cat <<EOT > /etc/chrony/chrony.conf
+driftfile /var/lib/chrony/chrony.drift
+rtcsync
+pool pool.ntp.org iburst
+initstepslew 10 pool.ntp.org
+EOT
 else
     logger -t chrony-set-ntp-server "custom config"
-    cp /etc/chrony/chrony.conf.base /etc/chrony/chrony.conf
-    echo "pool ${ntp_server} iburst" >> /etc/chrony/chrony.conf
+cat <<EOT > /etc/chrony/chrony.conf
+driftfile /var/lib/chrony/chrony.drift
+rtcsync
+pool ${ntp_server} iburst
+EOT
 fi

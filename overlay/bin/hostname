@@ -26,14 +26,13 @@ rc-update add sshd default
 setup-apkcache /media/mmcblk0p1/cache
 apk add /packages/*.apk
 
-# Setup lbu
-setup-lbu -q
-
 # Install requirements
-pip3 install --root /opt --no-index --find-links=file:/requirements brick
-lbu add /opt
+mount /media/mmcblk0p1 -o rw,remount
+pip3 install --root /media/mmcblk0p1/opt --no-index --find-links=file:/requirements brick
+mount /media/mmcblk0p1 -o ro,remount
 
-# Lbu commit
+# Lbu
+setup-lbu -q
 # lbu commit -d
 
 # reboot

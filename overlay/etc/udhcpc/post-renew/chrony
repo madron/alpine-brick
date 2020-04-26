@@ -1,3 +1,4 @@
 #!/bin/sh
 
 /etc/chrony/set-ntp-server ${ntpsrv}
+exit 0

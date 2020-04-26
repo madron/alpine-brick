@@ -19,8 +19,6 @@ rc-update add chrony default
 # Ssh
 apk add openssh-server
 echo "UseDNS no" >> /etc/ssh/sshd_config
-echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
-echo "PermitEmptyPasswords yes" >> /etc/ssh/sshd_config
 rc-update add sshd default
 /etc/init.d/sshd checkconfig
 
@@ -28,11 +26,15 @@ rc-update add sshd default
 setup-apkcache /media/mmcblk0p1/cache
 apk add /packages/*.apk
 
-# # Lbu
-# setup-lbu -q
+# Lbu
+setup-lbu -q
 # lbu commit -d
 
 # reboot
 
 # TO BE REMOVED
+echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
+echo "PermitEmptyPasswords yes" >> /etc/ssh/sshd_config
 /etc/init.d/networking start
+/etc/init.d/chrony start
+setup-apkrepos -1

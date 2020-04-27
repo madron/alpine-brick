@@ -38,12 +38,6 @@ chmod 0644 /etc/logrotate.d/brick
 lbu include /etc/init.d/brick
 lbu include /usr/lib/python3.8/site-packages/local.pth
 
-
-# TO BE REMOVED
-echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
-echo "PermitEmptyPasswords yes" >> /etc/ssh/sshd_config
-
-
 # Lbu commit
 lbu commit -d
 

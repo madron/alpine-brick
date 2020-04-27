@@ -50,11 +50,20 @@ output: fetch-alpine
 	cp -a original/* output/
 
 
+ssh-key:
+	mkdir -p build/ssh/root/.ssh
+	cat $HOME/.ssh/id_rsa.pub > build/ssh/root/.ssh/authorized_keys
+	chmod 0644 build/ssh/root/.ssh/authorized_keys
+
+
 overlay: fetch-alpine fetch-packages build/requirements
 	mkdir -p build/output
+	mkdir -p build/ssh/root/.ssh
+	chmod 0755 build/ssh/root/.ssh
 	tar --owner=root --group=root --create --file=build/output/localhost.apkovl.tar -C overlay .
 	tar --owner=root --group=root --append --file=build/output/localhost.apkovl.tar -C build packages
 	tar --owner=root --group=root --append --file=build/output/localhost.apkovl.tar -C build requirements
+	tar --owner=root --group=root --append --file=build/output/localhost.apkovl.tar -C build/ssh .
 	gzip -f build/output/localhost.apkovl.tar
 
 

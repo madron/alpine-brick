@@ -16,18 +16,19 @@ rc-update add networking boot
 apk add chrony
 rc-update add chronyd default
 
+# Setup Lbu
+setup-lbu -q
+
 # Ssh
 apk add openssh-server
 echo "UseDNS no" >> /etc/ssh/sshd_config
 rc-update add sshd default
 /etc/init.d/sshd checkconfig
+lbu include /root/.ssh/authorized_keys
 
 # Install additional packages
 setup-apkcache /media/mmcblk0p1/cache
 apk add /packages/*.apk
-
-# Setup Lbu
-setup-lbu -q
 
 # Install brick
 mount /media/mmcblk0p1 -o rw,remount

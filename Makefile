@@ -52,7 +52,7 @@ output: fetch-alpine
 
 ssh-key:
 	mkdir -p build/ssh/root/.ssh
-	cat $HOME/.ssh/id_rsa.pub > build/ssh/root/.ssh/authorized_keys
+	cat $(HOME)/.ssh/id_rsa.pub > build/ssh/root/.ssh/authorized_keys
 	chmod 0644 build/ssh/root/.ssh/authorized_keys
 
 

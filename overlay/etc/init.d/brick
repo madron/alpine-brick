@@ -5,7 +5,7 @@ description="Brick iot app"
 required_dirs="/etc/brick"
 
 command="/media/mmcblk0p1/opt/usr/bin/brick"
-command_args="--config-dir /etc/brick"
+command_args="--config-dir /etc/brick --persist-command '/sbin/lbu commit -d'"
 command_background="yes"
 pidfile="/run/${RC_SVCNAME}.pid"
 output_log="/var/log/brick"

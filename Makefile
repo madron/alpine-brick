@@ -11,7 +11,7 @@ PACKAGES_PYTHON_LIBS=yaml-0.2.2-r1.apk py3-yaml-5.3.1-r0.apk
 PACKAGES_RSYNC=libacl-2.2.53-r0.apk popt-1.16-r7.apk rsync-3.1.3-r2.apk rsync-openrc-3.1.3-r2.apk
 PACKAGES=${PACKAGES_IPTABLES} ${PACKAGES_LOGROTATE} ${PACKAGES_PYTHON} ${PACKAGES_PYTHON_LIBS} ${PACKAGES_RSYNC}
 COMMUNITY_PACKAGES_URL=http://dl-cdn.alpinelinux.org/alpine/v3.11/community/${ARCH}
-COMMUNITY_PACKAGES=py3-rpigpio-0.6.5-r3.apk
+COMMUNITY_PACKAGES=py3-rpigpio-0.6.5-r3.apk py3-gpiozero-1.5.1-r2.apk wiringpi-2.46-r2.apk i2c-tools-4.1-r2.apk py3-smbus-4.1-r2.apk
 
 BRICK_VERSION=33d721697f3b9919bb52a04899833b93a445a9ae
 BRICK_URL=https://github.com/madron/brick-iot

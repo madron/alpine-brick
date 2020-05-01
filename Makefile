@@ -74,6 +74,12 @@ overlay: fetch-alpine fetch-packages build/requirements
 	tar --owner=root --group=root --append --file=build/output/localhost.apkovl.tar -C build packages
 	tar --owner=root --group=root --append --file=build/output/localhost.apkovl.tar -C build requirements
 	tar --owner=root --group=root --append --file=build/output/localhost.apkovl.tar -C build/ssh .
+ifdef BRICK_CONFIG
+	echo $(BRICK_CONFIG)
+	mkdir -p build/config/etc/brick
+	cp $(BRICK_CONFIG)/* build/config/etc/brick
+	tar --owner=root --group=root --append --file=build/output/localhost.apkovl.tar -C build/config .
+endif
 	gzip -f build/output/localhost.apkovl.tar
 
 

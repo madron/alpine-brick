@@ -13,7 +13,7 @@ PACKAGES=${PACKAGES_IPTABLES} ${PACKAGES_LOGROTATE} ${PACKAGES_PYTHON} ${PACKAGE
 COMMUNITY_PACKAGES_URL=http://dl-cdn.alpinelinux.org/alpine/v3.11/community/${ARCH}
 COMMUNITY_PACKAGES=py3-rpigpio-0.6.5-r3.apk py3-gpiozero-1.5.1-r2.apk wiringpi-2.46-r2.apk i2c-tools-4.1-r2.apk py3-smbus-4.1-r2.apk
 
-BRICK_VERSION=53fb807f46991ff8528fe7df76464deae0a211b9
+BRICK_VERSION=08952e01fc147ea31e50daa54776b1232d23cd32
 BRICK_URL=https://github.com/madron/brick-iot
 
 .ONESHELL:

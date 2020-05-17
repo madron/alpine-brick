@@ -4,7 +4,7 @@ PACKAGES_URL=http://dl-cdn.alpinelinux.org/alpine/v3.11/main/${ARCH}
 PACKAGES_IPTABLES=libmnl-1.0.4-r0.apk libnftnl-libs-1.1.5-r0.apk iptables-1.8.3-r2.apk iptables-openrc-1.8.3-r2.apk
 PACKAGES_LOGROTATE=logrotate-3.15.1-r0.apk logrotate-openrc-3.15.1-r0.apk
 PACKAGES_PYTHON=libbz2-1.0.8-r1.apk expat-2.2.9-r1.apk libffi-3.2.1-r6.apk gdbm-1.13-r1.apk \
-				libgcc-9.2.0-r4.apk  xz-libs-5.2.4-r0.apk ncurses-terminfo-base-6.1_p20200118-r3.apk \
+				libgcc-9.2.0-r4.apk  xz-libs-5.2.4-r0.apk ncurses-terminfo-base-6.1_p20200118-r4.apk \
 				ncurses-libs-6.1_p20200118-r4.apk readline-8.0.1-r0.apk sqlite-libs-3.30.1-r2.apk \
  				python3-3.8.2-r0.apk
 PACKAGES_PYTHON_LIBS=yaml-0.2.2-r1.apk py3-yaml-5.3.1-r0.apk
@@ -46,8 +46,9 @@ fetch-packages:
 build/requirements:
 	mkdir -p build/requirements
 	cd build/requirements
-	pip3 download --platform ${ARCH} --no-deps websockets
-	pip3 download  git+${BRICK_URL}.git@${BRICK_VERSION}#egg=brick
+	pip3 download --platform ${ARCH} --no-deps websockets || exit 1
+	pip3 download --platform ${ARCH} --no-deps pydantic || exit 1
+	pip3 download git+${BRICK_URL}.git@${BRICK_VERSION}#egg=brick  || exit 1
 
 
 output: fetch-alpine
@@ -82,6 +83,10 @@ endif
 usercfg:
 	mkdir -p build/output
 	cp usercfg.txt build/output/
+
+
+clean-packages:
+	rm -rf build/packages
 
 
 clean-requirements:

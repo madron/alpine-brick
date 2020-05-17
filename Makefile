@@ -5,7 +5,7 @@ PACKAGES_IPTABLES=libmnl-1.0.4-r0.apk libnftnl-libs-1.1.5-r0.apk iptables-1.8.3-
 PACKAGES_LOGROTATE=logrotate-3.15.1-r0.apk logrotate-openrc-3.15.1-r0.apk
 PACKAGES_PYTHON=libbz2-1.0.8-r1.apk expat-2.2.9-r1.apk libffi-3.2.1-r6.apk gdbm-1.13-r1.apk \
 				libgcc-9.2.0-r4.apk  xz-libs-5.2.4-r0.apk ncurses-terminfo-base-6.1_p20200118-r3.apk \
-				ncurses-libs-6.1_p20200118-r3.apk readline-8.0.1-r0.apk sqlite-libs-3.30.1-r1.apk \
+				ncurses-libs-6.1_p20200118-r4.apk readline-8.0.1-r0.apk sqlite-libs-3.30.1-r2.apk \
  				python3-3.8.2-r0.apk
 PACKAGES_PYTHON_LIBS=yaml-0.2.2-r1.apk py3-yaml-5.3.1-r0.apk
 PACKAGES_RSYNC=libacl-2.2.53-r0.apk popt-1.16-r7.apk rsync-3.1.3-r2.apk rsync-openrc-3.1.3-r2.apk
@@ -13,7 +13,7 @@ PACKAGES=${PACKAGES_IPTABLES} ${PACKAGES_LOGROTATE} ${PACKAGES_PYTHON} ${PACKAGE
 COMMUNITY_PACKAGES_URL=http://dl-cdn.alpinelinux.org/alpine/v3.11/community/${ARCH}
 COMMUNITY_PACKAGES=py3-rpigpio-0.6.5-r3.apk py3-gpiozero-1.5.1-r2.apk wiringpi-2.46-r2.apk i2c-tools-4.1-r2.apk py3-smbus-4.1-r2.apk
 
-BRICK_VERSION=08952e01fc147ea31e50daa54776b1232d23cd32
+BRICK_VERSION=f8f9d8248e8b35917611e493c4d7827289efdcac
 BRICK_URL=https://github.com/madron/brick-iot
 
 .ONESHELL:
@@ -35,11 +35,11 @@ fetch-packages:
 	cd build/packages
 	for PKG in ${PACKAGES}
 	do
-		test -f $$PKG || wget ${PACKAGES_URL}/$$PKG
+		test -f $$PKG || wget ${PACKAGES_URL}/$$PKG || exit 1
 	done
 	for PKG in ${COMMUNITY_PACKAGES}
 	do
-		test -f $$PKG || wget ${COMMUNITY_PACKAGES_URL}/$$PKG
+		test -f $$PKG || wget ${COMMUNITY_PACKAGES_URL}/$$PKG || exit 1
 	done
 
 
@@ -48,10 +48,6 @@ build/requirements:
 	cd build/requirements
 	pip3 download --platform ${ARCH} --no-deps websockets
 	pip3 download  git+${BRICK_URL}.git@${BRICK_VERSION}#egg=brick
-
-
-clean-requirements:
-	rm -rf build/requirements
 
 
 output: fetch-alpine
@@ -86,6 +82,10 @@ endif
 usercfg:
 	mkdir -p build/output
 	cp usercfg.txt build/output/
+
+
+clean-requirements:
+	rm -rf build/requirements
 
 
 clean:
